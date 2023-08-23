@@ -192,14 +192,14 @@ export default function AudioRecorder() {
       {editId === item.id ? ( // Show TextInput and Save button when editId matches the current item's ID
         <>
           <TextInput
-            style={styles.inputs}
+            style={styles.inputEdit}
             value={editTitle}
             onChangeText={setEditTitle}
             onBlur={() => updateAudioTitle(item.id, editTitle)}
           />
           <Button
             style={styles.button}
-            title="Save"
+            title="Save Changes"
             onPress={() => updateAudioTitle(item.id, editTitle)}
           />
         </>
@@ -207,10 +207,17 @@ export default function AudioRecorder() {
         <>
           <Text>Audio {index + 1} - </Text>
           <Text>{item.title} - {item.duration}</Text>
-          <FontAwesomeIcon
+          {/* <FontAwesomeIcon
             icon={faEdit}
             size={30}
             color='#000080'
+            onPress={() => {
+              setEditId(item.id); // Set editId to the current item's ID when the Edit icon is pressed
+              setEditTitle(item.title); // Set editTitle to the current item's title when the Edit icon is pressed
+            }} */}
+            <Button
+            style={styles.button}
+            title="Edit"
             onPress={() => {
               setEditId(item.id); // Set editId to the current item's ID when the Edit icon is pressed
               setEditTitle(item.title); // Set editTitle to the current item's title when the Edit icon is pressed
@@ -311,6 +318,17 @@ const styles = StyleSheet.create({
   },
   inputs: {
     width: 250,
+    height: 30,
+    backgroundColor: '#fffafa',
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  inputEdit: {
+    width: 100,
     height: 30,
     backgroundColor: '#fffafa',
     height: 40,

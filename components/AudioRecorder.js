@@ -147,7 +147,10 @@ export default function AudioRecorder() {
         await AsyncStorage.setItem('recordings', JSON.stringify(updatedRecordings));
         setRecordings(updatedRecordings);
       }
+      Alert.alert('Success', 'Audio Title Updated.', [{ text: 'OK' }]);
+
     } catch (error) {
+
       console.log(error);
     }
   };
@@ -177,22 +180,20 @@ export default function AudioRecorder() {
   const renderItem = ({ item, index }) => (
     <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10 }}>
 
-      <FontAwesomeIcon
-        icon={item.isPlaying ? faPause : faPlay}
-        size={30}
-        color="#000080"
-        onPress={() => {
-          if (item.isPlaying) {
-            item.sound.pauseAsync();
-          } else {
-            item.sound.replayAsync();
-          }
-        }}
-      />
+      <TouchableOpacity onPress={() => {
+        if (item.isPlaying) {
+          item.sound.pauseAsync();
+        } else {
+          item.sound.replayAsync();
+        }
+      }} >
+        <FontAwesomeIcon icon={item.isPlaying ? faPause : faPlay} size={30} color="#000080" />
+      </TouchableOpacity>
+
       {editId === item.id ? ( // Show TextInput and Save button when editId matches the current item's ID
         <>
           <TextInput
-            style={styles.inputs}
+            style={styles.inputEdit}
             value={editTitle}
             onChangeText={setEditTitle}
             onBlur={() => updateAudioTitle(item.id, editTitle)}
@@ -207,21 +208,17 @@ export default function AudioRecorder() {
         <>
           <Text>Audio {index + 1} - </Text>
           <Text>{item.title} - {item.duration}</Text>
-          <FontAwesomeIcon
-            icon={faEdit}
-            size={30}
-            color='#000080'
-            onPress={() => {
-              setEditId(item.id); // Set editId to the current item's ID when the Edit icon is pressed
-              setEditTitle(item.title); // Set editTitle to the current item's title when the Edit icon is pressed
-            }}
-          />
-          <FontAwesomeIcon
-            icon={faTrash}
-            size={30}
-            color='#000080'
-            onPress={() => deleteRecording(item.id)}
-          />
+
+          <TouchableOpacity onPress={() => {
+            setEditId(item.id);
+            setEditTitle(item.title)
+          }} >
+            <FontAwesomeIcon icon={faEdit} size={30} color='#000080' />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => deleteRecording(item.id)}>
+            <FontAwesomeIcon icon={faTrash} size={30} color='#000080' />
+          </TouchableOpacity>
         </>
       )}
     </View>
@@ -311,6 +308,17 @@ const styles = StyleSheet.create({
   },
   inputs: {
     width: 250,
+    height: 30,
+    backgroundColor: '#fffafa',
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  inputEdit: {
+    width: 100,
     height: 30,
     backgroundColor: '#fffafa',
     height: 40,

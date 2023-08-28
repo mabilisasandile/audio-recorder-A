@@ -200,7 +200,7 @@ export default function AudioRecorder() {
           />
           <Button
             style={styles.button}
-            title="Save"
+            title="Save Changes"
             onPress={() => updateAudioTitle(item.id, editTitle)}
           />
         </>
@@ -208,17 +208,21 @@ export default function AudioRecorder() {
         <>
           <Text>Audio {index + 1} - </Text>
           <Text>{item.title} - {item.duration}</Text>
-
-          <TouchableOpacity onPress={() => {
-            setEditId(item.id);
-            setEditTitle(item.title)
-          }} >
-            <FontAwesomeIcon icon={faEdit} size={30} color='#000080' />
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => deleteRecording(item.id)}>
-            <FontAwesomeIcon icon={faTrash} size={30} color='#000080' />
-          </TouchableOpacity>
+          <FontAwesomeIcon
+            icon={faEdit}
+            size={30}
+            color='#000080'
+            onPress={() => {
+              setEditId(item.id); // Set editId to the current item's ID when the Edit icon is pressed
+              setEditTitle(item.title); // Set editTitle to the current item's title when the Edit icon is pressed
+            }}
+          />
+          <FontAwesomeIcon
+            icon={faTrash}
+            size={30}
+            color='#000080'
+            onPress={() => deleteRecording(item.id)}
+          />
         </>
       )}
     </View>
